@@ -2,35 +2,59 @@
 var generateBtn = document.querySelector("#generate");
 var lowercaseCriteria = "abcdefghijklmnopqrstuvwxyz";
 var uppercaseCriteria = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-var specialcharacacterCriteria = "!@#$%^&*()_+-=[]{}|;:',.<>/?";
+var specialCharacacterCriteria = "!@#$%^&*()_+-=[]{}|;:',.<>/?";
 var numberCriteria = "0123456789";
+var addedChar = "";
+var password = "";
 
 function generatePassword() {
-  var charleng = prompt("How many character would you like your password to contain?"); // A prompt asking user to enter character length between 8-128
-  if (charleng >= 8 && charleng <= 128) {
+  // A prompt asking user to enter character length between 8-128
+  var charLen = prompt(
+    "How many character would you like your password to contain?"
+  ); 
+  // an alert that has if function, if charLen is less than 8, console log("Ops! Password length must be at least 8 characters.")
+  if (charLen >= 8 && charLen <= 128) {
   } else {
-    alert("Ops! Password length must be at least 8 characters and a maximum of 128 characters."); // an alert that has if function, if charleng is less than 8, console log("Ops! Password length must be at least 8 characters.")
-    return; // the value of input need to be at least 8 char and max 128
-  }  
-    var addlowercase = confirm("Click OK to include lowercase") // if true, include at least one lowercase
-    
-    var adduppercase = confirm("Click OK to include uppercase") // if true include at least one lowercase, else continue
-    
-    var addspecilchar = confirm("Click OK to include special character") // if true include at least 1 special char
-    
-    var addnumber = confirm("Click OK to include number")  //  if true, include at least 1 number
-   
-    if (!addlowercase && !adduppercase && !addspecilchar && !addnumber) { // If statement: Input should be validated and user need to select at least 1/4 character
+    alert(
+      "Ops! Password length must be at least 8 characters and a maximum of 128 characters."
+    ); 
+    return; 
+  }
+  // if true, include at least one lowercase
+  var addLowercase = confirm("Click OK to include lowercase"); 
+  // if true include at least one lowercase, else continue
+  var addUppercase = confirm("Click OK to include uppercase"); 
+  // if true include at least 1 special char
+  var addSpecilchar = confirm("Click OK to include special character"); 
+  //  if true, include at least 1 number
+  var addNumber = confirm("Click OK to include number"); 
+
+  // If statement: Input should be validated and user need to select at least 1/4 character
+  if (!addLowercase && !addUppercase && !addSpecilchar && !addNumber) {
       alert("Please include at least 1 password criteria");
-    }
+  }
 
+  if (addLowercase) {
+    addedChar += lowercaseCriteria;
+  }
+  if (addUppercase) {
+    addedChar += uppercaseCriteria;
+  }
+  if (addSpecilchar) {
+    addedChar += specialCharacacterCriteria;
+  }
+  if (addNumber) {
+    addedChar += numberCriteria;
+  }
 
-  
-  
-  
+  // Generate random password using loop
+  for (var i = 0; i < charLen; i++) {
+    var passwordGenerated = Math.floor(Math.random() * addedChar.length);
+    password += addedChar[passwordGenerated];
+  }
 
-  return passwordGenerated
-} 
+  return password;
+}
 
 // Write password to the #password input
 function writePassword() {
@@ -40,7 +64,6 @@ function writePassword() {
   passwordText.value = password;
   // password is generated matches the criteria
   // password written in the box
-
 }
 
 // Add event listener to generate button
